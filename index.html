@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ecu Fps — Bilgisayarını oyuna hazırla</title>
+<meta name="description" content="Windows'u oyun için ayarlayan, darboğazını ölçen ve yaptığı ayar değişikliklerini geri alabilen ücretsiz Türkçe uygulama.">
+<link rel="canonical" href="https://ecufast.asilpolat.com/">
+<meta name="theme-color" content="#05070B">
+<meta property="og:title" content="Ecu Fps — Bilgisayarını oyuna hazırla">
+<meta property="og:description" content="Her değişiklikten önce sorar, önceki ayarları kaydeder, tek tıkla geri alır. Ücretsiz, Türkçe, Windows 10/11.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ecufast.asilpolat.com/">
+<meta property="og:image" content="https://ecufast.asilpolat.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ecu Fps logosu">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ecufast.asilpolat.com/og-image.png">
+<meta name="twitter:image:alt" content="Ecu Fps logosu">
+<link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+:root{--bg:#05070B;--card:#0B0F17;--card2:#121824;--line:rgba(255,255,255,.08);--ac:#3DFF7A;--on:#031409;--txt:#F1F5F9;--mut:#8A99AD;--cpu:#FF8A1F;--gpu:#00D4FF;--red:#FF5C7A;--well:#04060A;--mono:ui-monospace,"Cascadia Mono",Consolas,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:"Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;line-height:1.55;overflow-x:hidden}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.rainbow{position:fixed;top:0;left:0;right:0;height:3px;z-index:60;background:linear-gradient(90deg,#FF5C7A,#FF8A1F,#FFCC00,#3DFF7A,#00D4FF,#A64DFF,#FF5C7A);background-size:200% 100%;animation:slide 8s linear infinite}
+@keyframes slide{to{background-position:200% 0}}
+.top{position:sticky;top:3px;z-index:50;backdrop-filter:blur(12px);background:#05070Bcc;border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;font-weight:700;font-size:20px}
+.logo svg{height:34px;width:auto;display:block}
+.nav{display:flex;gap:22px;font-size:14px;color:var(--mut)}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--ac);color:var(--on);font-weight:700;border-radius:12px;padding:12px 20px;box-shadow:0 0 28px #3DFF7A55;text-decoration:none;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 0 44px #3DFF7A88}
+.btn small{font-weight:600;opacity:.75}
+a{color:inherit;text-decoration:none}
+.nav a{position:relative;padding:6px 0;transition:color .2s,text-shadow .2s}
+.nav a:after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;border-radius:2px;background:var(--ac);box-shadow:0 0 10px var(--ac);transform:scaleX(0);transition:transform .25s ease-out}
+.nav a:hover{color:var(--txt)}
+.nav a.on{color:var(--ac);text-shadow:0 0 14px #3DFF7A99}.nav a.on:after{transform:scaleX(1)}
+.btn:focus-visible,.nav a:focus-visible{outline:2px solid var(--ac);outline-offset:3px}
+/* generic "app window" drawn in CSS */
+.win{background:var(--bg);border:1px solid rgba(255,255,255,.10);border-radius:12px;box-shadow:0 40px 100px #000e,0 0 0 1px #000;overflow:hidden;position:relative}
+.win .bar{height:34px;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid var(--line);font-size:12px;color:var(--mut);background:#030508}
+.win .bar i{width:9px;height:9px;border-radius:50%;background:#1d2531}
+.win .bar .rb{position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,#FF5C7A,#FF8A1F,#FFCC00,#3DFF7A,#00D4FF,#A64DFF)}
+.win .body{padding:18px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:4px 10px;border-radius:20px;border:1px solid #273027;color:var(--mut)}
+.pill.ok{color:var(--ac);border-color:#3DFF7A55;background:#3DFF7A12}
+/* BOOST mock window */
+.tb{display:flex;gap:2px;padding:6px 8px;background:#030508;border-bottom:1px solid var(--line);overflow:hidden}
+.tb span{flex:none;font-size:11px;padding:5px 7px;border-radius:6px;color:var(--mut);white-space:nowrap}
+.tb span.on{background:#3DFF7A1A;color:var(--ac);font-weight:600;box-shadow:inset 0 -2px 0 var(--ac)}
+.sr{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-size:13px;font-weight:700}
+.sr code,.eyebrow code{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ac)}
+.sr:after,.eyebrow:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,#3DFF7A47,#00D4FF1F,#ffffff05)}
+.eyebrow{display:flex;align-items:center;gap:10px}
+.eyebrow:after{max-width:260px}
+/* hero */
+.hero{position:relative;padding:76px 0 40px}
+.hero .glow{position:absolute;right:4%;top:18%;width:560px;height:440px;background:var(--ac);filter:blur(150px);opacity:.15;animation:pulse 5s ease-in-out infinite;pointer-events:none}
+@keyframes pulse{50%{opacity:.27}}
+.g2{display:grid;grid-template-columns:1fr 1.1fr;gap:46px;align-items:center}
+h1{font-size:clamp(34px,5vw,62px);line-height:1.03;margin:0 0 18px;letter-spacing:-.02em}
+h1 span,.hl{color:var(--ac);text-shadow:0 0 30px #3DFF7A66}
+.lead{color:var(--mut);font-size:18px;margin:0 0 22px}
+.trust{list-style:none;padding:0;margin:0 0 26px;display:grid;gap:9px}
+.trust li{display:flex;gap:10px;align-items:center;opacity:0;transform:translateY(8px);animation:in .6s ease forwards}
+.trust li:nth-child(2){animation-delay:.2s}.trust li:nth-child(3){animation-delay:.4s}.trust li:nth-child(4){animation-delay:.6s}
+.trust b{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#3DFF7A22;color:var(--ac);font-size:13px;flex:none}
+@keyframes in{to{opacity:1;transform:none}}
+.ver{margin-top:14px;font-size:13px;color:var(--mut)}
+.ver i{font-style:normal;color:var(--ac)}
+/* hero visual: the big toggle */
+.hv{transform:perspective(1400px) rotateY(-10deg) rotateX(3deg);animation:bob 7s ease-in-out infinite}
+@keyframes bob{50%{transform:perspective(1400px) rotateY(-10deg) rotateX(3deg) translateY(-12px)}}
+.toggle{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(170deg,#131925,#0A0E15);border:1px solid rgba(255,255,255,.075);border-radius:10px;padding:14px 16px}
+.toggle h4{margin:0;font-size:20px}
+.toggle p{margin:2px 0 0;font-size:13px;color:var(--mut)}
+.sw{width:72px;height:38px;border-radius:30px;background:#1e231e;position:relative;flex:none;animation:swbg 6s infinite}
+.sw:after{content:"";position:absolute;top:4px;left:4px;width:30px;height:30px;border-radius:50%;background:#cfd6cf;animation:knob 6s infinite}
+@keyframes swbg{0%,25%{background:#1e231e}35%,100%{background:var(--ac);box-shadow:0 0 24px #3DFF7A88}}
+@keyframes knob{0%,25%{transform:none;background:#cfd6cf}35%,100%{transform:translateX(34px);background:#04140A}}
+.chk{margin-top:12px;display:grid;gap:8px}
+.chk div{display:flex;justify-content:space-between;align-items:center;background:var(--well);border:1px solid rgba(255,255,255,.055);border-radius:8px;padding:10px 14px;font-size:13px}
+.chk span.st{font-size:12px;padding:3px 10px;border-radius:12px;background:#1a1f1a;color:var(--mut);position:relative;min-width:84px;text-align:center}
+.chk span.st:after{content:"Bekliyor"}
+.chk div:nth-child(1) span.st{animation:s1 6s infinite}.chk div:nth-child(1) span.st:after{animation:t1 6s infinite}
+.chk div:nth-child(2) span.st{animation:s2 6s infinite}.chk div:nth-child(2) span.st:after{animation:t2 6s infinite}
+.chk div:nth-child(3) span.st{animation:s3 6s infinite}.chk div:nth-child(3) span.st:after{animation:t3 6s infinite}
+.chk div:nth-child(4) span.st{animation:s4 6s infinite}.chk div:nth-child(4) span.st:after{animation:t4 6s infinite}
+@keyframes s1{0%,40%{background:#1a1f1a;color:var(--mut)}45%,100%{background:#3DFF7A22;color:var(--ac)}}
+@keyframes s2{0%,52%{background:#1a1f1a;color:var(--mut)}57%,100%{background:#3DFF7A22;color:var(--ac)}}
+@keyframes s3{0%,64%{background:#1a1f1a;color:var(--mut)}69%,100%{background:#3DFF7A22;color:var(--ac)}}
+@keyframes s4{0%,76%{background:#1a1f1a;color:var(--mut)}81%,100%{background:#3DFF7A22;color:var(--ac)}}
+@keyframes t1{0%,40%{content:"Bekliyor"}45%,100%{content:"✓ Doğrulandı"}}
+@keyframes t2{0%,52%{content:"Bekliyor"}57%,100%{content:"✓ Doğrulandı"}}
+@keyframes t3{0%,64%{content:"Bekliyor"}69%,100%{content:"✓ Doğrulandı"}}
+@keyframes t4{0%,76%{content:"Bekliyor"}81%,100%{content:"✓ Doğrulandı"}}
+.ask{position:absolute;right:-26px;bottom:-34px;width:270px;background:#0e110e;border:1px solid #3DFF7A55;border-radius:14px;padding:14px;box-shadow:0 20px 60px #000d;animation:pop 6s infinite}
+.ask b{display:block;margin-bottom:4px}
+.ask p{margin:0 0 10px;font-size:12px;color:var(--mut)}
+.ask .yn{display:flex;gap:8px}.ask .yn span{flex:1;text-align:center;border-radius:8px;padding:7px;font-size:13px;border:1px solid #2a312a}
+.ask .yn span:first-child{background:var(--ac);color:var(--on);font-weight:700;border:0}
+@keyframes pop{0%,8%{opacity:0;transform:translateY(10px) scale(.96)}12%,30%{opacity:1;transform:none}36%,100%{opacity:0;transform:translateY(-6px)}}
+.strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:70px 0 0}
+.strip div{background:#080a08;padding:18px;font-size:14px;color:var(--mut)}
+.strip strong{display:block;color:var(--txt);font-size:16px}
+/* sections */
+section.feat{padding:110px 0 20px}
+.eyebrow{color:var(--ac);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+h2{font-size:clamp(28px,3.6vw,46px);line-height:1.08;margin:8px 0 14px}
+.row{display:grid;grid-template-columns:1fr 1.25fr;gap:50px;align-items:center}
+.row.flip{grid-template-columns:1.25fr 1fr}.row.flip .txt{order:2}
+.txt p{color:var(--mut);font-size:17px}
+.pts{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+.pts li{padding-left:26px;position:relative}
+.pts li:before{content:"";position:absolute;left:0;top:9px;width:12px;height:12px;border-radius:3px;background:var(--ac);box-shadow:0 0 12px #3DFF7A88}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+.reveal.on{opacity:1;transform:none}
+/* flow timeline */
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:34px;position:relative}
+.flow:before{content:"";position:absolute;left:10%;right:10%;top:22px;height:2px;background:#1d241d}
+.flow:after{content:"";position:absolute;left:10%;top:22px;height:2px;width:80%;background:var(--ac);box-shadow:0 0 12px var(--ac);transform-origin:left;transform:scaleX(0);transition:transform 2s ease}
+.flow.on:after{transform:scaleX(1)}
+.flow div{text-align:center;position:relative;z-index:1;padding:0 8px;font-size:14px;color:var(--mut)}
+.flow b{display:grid;place-items:center;width:46px;height:46px;margin:0 auto 10px;border-radius:50%;background:#0d110d;border:2px solid var(--ac);color:var(--ac);font-size:16px}
+.flow strong{display:block;color:var(--txt)}
+/* bottleneck: animated test scene */
+.bn{background:radial-gradient(ellipse at 50% 0%,#0b2a17,transparent 60%)}
+.scene{position:relative;height:380px;background:#020402;overflow:hidden;border-radius:12px}
+.tunnel{position:absolute;inset:0;perspective:400px}
+.tunnel i{position:absolute;left:50%;top:50%;width:40px;height:40px;margin:-20px;border:1px solid #3DFF7A66;transform-style:preserve-3d;animation:fly 3s linear infinite}
+@keyframes fly{from{transform:translateZ(-600px) scale(.4);opacity:0}30%{opacity:1}to{transform:translateZ(380px) scale(18);opacity:0}}
+.shard{position:absolute;width:14px;height:8px;border-radius:2px;animation:shard 2.4s linear infinite;opacity:.9}
+@keyframes shard{from{transform:translate(0,0) scale(.2)}to{transform:translate(var(--x),var(--y)) scale(1.6);opacity:0}}
+.hud{position:absolute;background:#070907dd;border:1px solid #1f271f;border-radius:10px;padding:10px 12px;font-size:12px;backdrop-filter:blur(4px)}
+.fps{right:12px;top:12px;text-align:left}
+.fps b{display:block;font-size:30px;color:var(--ac);line-height:1}
+.stage{left:12px;top:12px;width:250px}
+.stage .pb{height:4px;background:#1a201a;border-radius:3px;margin-top:8px;overflow:hidden}
+.stage .pb i{display:block;height:100%;background:var(--ac);animation:prog 9s linear infinite;transform-origin:left}
+@keyframes prog{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.loads{left:12px;bottom:12px;width:250px}
+.seg{display:flex;gap:3px;margin:4px 0 8px}.seg i{flex:1;height:7px;border-radius:2px;background:#1b211b}
+.seg.c i:nth-child(-n+11){background:linear-gradient(90deg,var(--ac),var(--cpu),var(--red));background-size:1100% 100%}
+.seg.c i:nth-child(1){background-position:0 0}.seg.c i:nth-child(5){background-position:40% 0}.seg.c i:nth-child(8){background-position:70% 0}.seg.c i:nth-child(11){background-position:100% 0}
+.seg.g i:nth-child(-n+2){background:var(--ac)}
+.ft{left:274px;right:12px;bottom:12px}
+.ft .cols{display:flex;align-items:flex-end;gap:4px;height:38px;margin-top:6px}
+.ft .cols i{flex:1;background:var(--ac);border-radius:2px;animation:col 1.2s ease-in-out infinite alternate}
+.ft .cols i:nth-child(odd){animation-delay:.3s}.ft .cols i:nth-child(3n){animation-delay:.6s}
+@keyframes col{from{height:40%}to{height:90%}}
+.verdict{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+.verdict div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.verdict .me{border-color:var(--gpu);box-shadow:0 0 0 1px var(--gpu) inset}
+.vb{height:7px;border-radius:4px;margin:10px 0 3px;transform-origin:left;transform:scaleX(0);transition:transform 1.4s cubic-bezier(.2,.8,.2,1)}
+.on .vb{transform:scaleX(var(--w))}
+.cpu{background:var(--cpu)}.gpu{background:var(--gpu)}
+.note{font-size:13px;color:var(--mut);margin-top:12px}
+/* feature mini visuals */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .25s,border-color .25s}
+.card:hover{transform:translateY(-4px);border-color:#3DFF7A55}
+.viz{height:190px;background:radial-gradient(ellipse at 50% 0%,#0e2216,#060806 70%);position:relative;overflow:hidden;padding:16px}
+.card .t{padding:16px}
+.card h3{margin:0 0 6px;font-size:18px}
+.card p{margin:0;color:var(--mut);font-size:14px}
+.mrow{display:flex;justify-content:space-between;align-items:center;font-size:12px;background:#0a0d0a;border:1px solid #182018;border-radius:8px;padding:7px 10px;margin-bottom:6px}
+.mrow em{font-style:normal;font-size:11px;padding:2px 8px;border-radius:10px}
+.okk{background:#3DFF7A22;color:var(--ac)}.warn{background:#FFB21E22;color:var(--cpu)}
+.games{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.games div{aspect-ratio:3/4;border-radius:8px;background:linear-gradient(160deg,#1d3a26,#0b120d);border:1px solid #213021;position:relative;animation:gl 4s ease-in-out infinite}
+.games div:nth-child(2){background:linear-gradient(160deg,#1c2a3d,#0b0e14);animation-delay:.6s}.games div:nth-child(3){background:linear-gradient(160deg,#3a2a1a,#120d08);animation-delay:1.2s}
+.games div:after{content:"";position:absolute;left:8px;right:8px;bottom:8px;height:6px;border-radius:3px;background:#ffffff22}
+@keyframes gl{50%{box-shadow:0 0 22px #3DFF7A44;transform:translateY(-3px)}}
+.gauge{position:absolute;left:50%;top:22px;width:180px;height:90px;margin-left:-90px;border-radius:180px 180px 0 0;border:10px solid #1b221b;border-bottom:0}
+.needle{position:absolute;left:50%;top:112px;width:3px;height:78px;margin-left:-1px;background:var(--ac);transform-origin:bottom;box-shadow:0 0 10px var(--ac);animation:needle 3s ease-in-out infinite alternate;margin-top:-78px}
+@keyframes needle{from{transform:rotate(-80deg)}to{transform:rotate(55deg)}}
+.gnum{position:absolute;left:0;right:0;bottom:22px;text-align:center;font-size:12px;color:var(--mut)}
+.prog{height:8px;border-radius:5px;background:#1a201a;overflow:hidden;margin:6px 0 10px}.prog i{display:block;height:100%;width:100%;background:var(--ac);transform-origin:left;animation:prog 4s ease-in-out infinite}
+.bars{display:flex;align-items:flex-end;gap:10px;height:120px;margin-top:8px}
+.bars div{flex:1;border-radius:6px 6px 2px 2px;background:linear-gradient(#3DFF7A,#1a7a3c);animation:shrink 4s ease-in-out infinite}
+.bars div:nth-child(2){animation-delay:.3s}.bars div:nth-child(3){animation-delay:.6s}.bars div:nth-child(4){animation-delay:.9s}
+@keyframes shrink{0%,20%{height:95%}60%,100%{height:12%}}
+.tl{position:relative;padding-left:18px}
+.tl:before{content:"";position:absolute;left:5px;top:4px;bottom:4px;width:2px;background:#1e261e}
+.tl div{position:relative;font-size:12px;margin-bottom:9px;color:var(--mut)}
+.tl div:before{content:"";position:absolute;left:-17px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--ac);box-shadow:0 0 8px var(--ac)}
+.tl b{color:var(--txt);font-weight:600}
+/* safety */
+.safe{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
+.safe div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+.safe h4{margin:0 0 6px;font-size:16px}.safe p{margin:0;color:var(--mut);font-size:14px}
+.no{border-color:#3a1c1c!important}.no h4{color:#ff8a8a}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+.steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+.steps .n{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ac);color:var(--on);font-weight:800;margin-bottom:8px}
+.smart{margin-top:16px;background:#0e0c05;border:1px solid #3a3210;border-radius:12px;padding:16px;color:#e8dca0;font-size:14px}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-top:10px}
+summary{cursor:pointer;font-weight:600}details p{color:var(--mut);margin:10px 0 0}
+.final{text-align:center;padding:120px 0 90px}
+footer{border-top:1px solid var(--line);padding:26px 0;color:var(--mut);font-size:13px}
+.flinks{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:12px}.flinks a:hover{color:var(--ac)}
+.tag{position:fixed;right:14px;bottom:14px;z-index:70;background:#111;border:1px solid #333;border-radius:10px;padding:8px 12px;font-size:12px;color:#bbb}
+@media (max-width:900px){.g2>*,.row>*{min-width:0}.g2,.row,.row.flip{grid-template-columns:1fr}.row.flip .txt{order:0}.cards,.safe,.steps,.verdict{grid-template-columns:1fr}.strip{grid-template-columns:1fr 1fr}.nav{display:none}.ask{right:6px}.hv{transform:none;animation:none}.flow{grid-template-columns:1fr 1fr 1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal,.trust li{opacity:1;transform:none}.vb{transform:scaleX(var(--w))}}
+</style>
+</head>
+<body>
+<div class="rainbow"></div>
+
+<header class="top"><div class="wrap">
+  <a class="logo" href="#"><svg class="lockup" viewBox="12 12 373 96" role="img" aria-label="Ecu Fps logosu"><title>Ecu Fps logosu</title><path d="M35 12L74.375 12L70.5 34.125L45.875 34.125L36.75 85.875L61.375 85.875L57.4375 108L18.0625 108L12 100.625L26.3125 19.375ZM31.1875 54.4375L134 54.4375L132 65.5625L29.25 65.5625ZM94.0625 12L135.9375 12L132 34.125L104.9375 34.125L102.6875 47.0625L80.5 47.0625L85.375 19.375ZM75.9375 72.9375L98.125 72.9375L91.9375 108L69.75 108Z" fill="#3DFF7A"/><path d="M130.75 41.5625L145.9375 60L124.1875 78.4375Z" fill="#00D4FF"/><path d="M188.4375 35L211.9375 35L210.625 42.5L190.125 42.5L187.6875 56.25L203.6875 56.25L202.375 63.75L186.375 63.75L183.9375 77.5L204.4375 77.5L203.125 85L179.625 85L175.9375 80.5L183.1875 39.5ZM239.1875 56.5L222.9375 56.5L222 57.3125L218.625 76.6875L219.25 77.5L235.4375 77.5L234.125 85L214.8125 85L210.5625 79.8125L215.0625 54.1875L221.1875 49L240.5 49ZM254.5 49L249.625 76.6875L250.25 77.5L265.6875 77.5L264.375 85L245.8125 85L241.5625 79.8125L247 49ZM267 49L274.5 49L268.125 85L260.625 85Z" fill="#F1F5F9"/><path d="M298.4375 35L321.4375 35L320.125 42.5L300.125 42.5L297.6875 56.25L313.1875 56.25L311.875 63.75L296.375 63.75L292.625 85L285.125 85L293.1875 39.5ZM325.5 49L333 49L324.1875 99L316.6875 99ZM329.25 49L347.8125 49L352.0625 54.1875L347.5625 79.8125L341.4375 85L322.875 85L324.1875 77.5L339.6875 77.5L340.625 76.6875L344 57.3125L343.375 56.5L327.9375 56.5ZM383.1875 56.5L366.4375 56.5L365.5 57.3125L364.625 62.4375L365.25 63.25L376.75 63.25L381.0625 68.4375L379.0625 79.8125L372.9375 85L353.125 85L354.4375 77.5L371.1875 77.5L372.125 76.6875L373 71.5625L372.375 70.75L360.875 70.75L356.5625 65.5625L358.5625 54.1875L364.6875 49L384.5 49Z" fill="#3DFF7A"/></svg></a>
+  <nav class="nav"><a href="#perf">Performans</a><a href="#bn">Darboğaz testi</a><a href="#all">Özellikler</a><a href="#safe">Güvenlik</a><a href="#install">Kurulum</a><a href="#faq">SSS</a></nav>
+  <a class="btn dl" href="https://github.com/ykp61/Ecu-Fps-releases/releases/latest">⬇ İndir <small class="v-tag"></small></a>
+</div></header>
+
+<section class="hero"><div class="glow"></div><div class="wrap">
+  <div class="g2">
+    <div>
+      <h1>Bilgisayarını <span>oyuna</span> hazırla. Önce gör, sonra onayla.</h1>
+      <p class="lead">Windows'u oyun için ayarlayan, darboğazını ölçen ve yaptığı ayar değişikliklerini geri alabilen ücretsiz Türkçe uygulama. Değişiklikler önce listelenir, Evet / Hayır onayın olmadan uygulanmaz ve geri alınabilir.</p>
+      <ul class="trust">
+        <li><b>✓</b>Her değişiklikten önce "Uygulansın mı? Evet / Hayır" sorar</li>
+        <li><b>✓</b>Önceki değerleri kaydeder; Kapalı, Evet / Hayır onayıyla bunları geri yükler</li>
+        <li><b>✓</b>Oyun dosyalarına, belleğine ve anti-cheat'e dokunmaz</li>
+        <li><b>✓</b>Kazanç vaat etmez; "Etkiyi ölç" ile bu bilgisayarda fark ölçülebiliyor mu gösterir</li>
+      </ul>
+      <a class="btn dl" href="https://github.com/ykp61/Ecu-Fps-releases/releases/latest">⬇ Ücretsiz indir · Windows 10/11 · 64 bit</a>
+      <div class="ver"><span class="v-line" hidden>Son sürüm <i class="v-num"></i><span class="v-meta"></span> · </span><a href="#install" style="text-decoration:underline">Windows uyarısı çıkarsa?</a></div>
+    </div>
+    <div style="position:relative">
+      <div class="win hv"><div class="bar"><span class="rb"></span><i></i><i></i><i></i>&nbsp;Ecu Fps</div>
+        <div class="tb"><span class="on">Panel</span><span>Oyunlar</span><span>Oyun hazırlığı</span><span>Ölçümler</span><span>Güncellemeler</span><span>Sistem</span><span>Geçmiş</span><span>Ayarlar</span></div>
+        <div class="body">
+        <div class="sr"><code>01 //</code>Performans</div>
+        <div class="toggle"><div><h4>Performans</h4><p>Bu bilgisayar için 4 değişiklik hazır</p></div><div class="sw"></div></div>
+        <div class="chk">
+          <div>Güç planı: Yüksek performans <span class="st"></span></div>
+          <div>Ekran kartı zamanlaması <span class="st"></span></div>
+          <div>Oyun modu ve arka plan <span class="st"></span></div>
+          <div>Görsel efektler <span class="st"></span></div>
+        </div>
+      </div></div>
+      <p class="ver" style="margin:8px 0 0">Temsilî görsel. Gerçek sonuçlar bu bilgisayarda ölçülür.</p>
+      <div class="ask"><b>Uygulansın mı?</b><p>4 ayar değişecek. Önceki değerler kaydedilir.</p><div class="yn"><span>Evet</span><span>Hayır</span></div></div>
+    </div>
+  </div>
+  <div class="strip reveal">
+    <div><strong>Tek dosya</strong>Kurulum ve program aynı EXE</div>
+    <div><strong>Yönetici izni</strong>Kurulumda bir kez; DNS veya sürücü gibi işlemler ayrıca sorar</div>
+    <div><strong>Tepside çalışır</strong>Çık, ayarlarına dokunmaz</div>
+    <div><strong>NVIDIA · AMD · Intel</strong>Kartının desteklediği kadar</div>
+  </div>
+</div></section>
+
+<section class="feat" id="perf"><div class="wrap">
+  <div class="reveal" style="max-width:760px"><div class="eyebrow"><code>01 //</code>Tek tık</div><h2>Performans Açık. Performans Kapalı.</h2>
+  <p class="lead">Profil yok, karmaşık menü yok. Program bilgisayarına uygun değişiklikleri seçer, sen onaylarsın. Kapatınca her şey <span class="hl">senin eski ayarına</span> döner, fabrika ayarına değil.</p>
+  <p class="lead">Sekiz sayfa tek pencerede: Panel, Oyunlar, Oyun hazırlığı, Ölçümler, Güncellemeler, Sistem, Geçmiş ve Ayarlar. Üstte ince bir RGB şeridi, altında ayarlarının gerçek durumu.</p>
+  <ul class="pts" style="margin-bottom:22px"><li><b>Tepsiden Çık ayarları geri almaz.</b> Uygulamayı kapatmak, Performans'ın açık kalan ayarlarını değiştirmez; geri yükleme yalnız Kapalı ile, onayınla olur.</li><li><b>Açılışta gerçek durum okunur.</b> Uygulama her açıldığında ayarların Windows'taki güncel hâlini okur; hatırlanan bir durumu doğru diye göstermez.</li><li><b>Kapalı = önceki değerlere dönüş.</b> Fabrika ayarı değil; Ecu Fps'ten önceki kendi değerlerin, "Geri yüklensin mi? Evet / Hayır" sorusuyla.</li></ul>
+  <p class="lead">Performans, listelenen ve geri alınabilir güç, ekran kartı zamanlaması, oyun modu ve arka plan ayarlarını uygular. Etkisi vaat edilmez; her bilgisayarda ölçülebilir fark çıkmayabilir. "Etkiyi ölç" ile bu bilgisayarda fark olup olmadığını kendin görürsün.</p></div>
+  <div class="flow reveal">
+    <div><b>1</b><strong>Plan</strong>Uygun değişiklikler listelenir</div>
+    <div><b>2</b><strong>Onay</strong>Evet / Hayır senin kararın</div>
+    <div><b>3</b><strong>Kayıt</strong>Eski değer önce diske yazılır</div>
+    <div><b>4</b><strong>Uygula</strong>Yazılır, geri okunup doğrulanır</div>
+    <div><b>5</b><strong>Geri al</strong>Kapalı = eski hâline döner</div>
+  </div>
+</div></section>
+
+<section class="feat bn" id="bn"><div class="wrap row">
+  <div class="txt reveal"><div class="eyebrow"><code>02 //</code>Darboğaz testi</div><h2>İşlemci mi, ekran kartı mı? <span class="hl">Ölç, gör.</span></h2>
+    <p>Yaklaşık 45 saniyelik canlı 3B test sahnesi bilgisayarını adım adım zorlar. Test sırasında kare hızını, işlemci ve ekran kartı yükünü canlı izlersin.</p>
+    <ul class="pts"><li>1080p, 1440p ve 4K için ayrı sonuç</li><li>Senin ekranın çözünürlüğü işaretli</li><li>Son testler yan yana, geçmişte saklı</li></ul></div>
+  <div class="reveal">
+    <div class="win"><div class="bar"><span class="rb"></span><i></i><i></i><i></i>&nbsp;Ölçümler · Darboğaz testi</div>
+      <div class="scene" id="scene">
+        <div class="tunnel"><i></i><i style="animation-delay:-.6s"></i><i style="animation-delay:-1.2s"></i><i style="animation-delay:-1.8s"></i><i style="animation-delay:-2.4s"></i></div>
+        <div class="hud stage"><b>Aşama 3/9 · Ekran kartı yükü</b><div style="color:var(--mut)">1440p · tam sahne</div><div class="pb"><i></i></div></div>
+        <div class="hud fps">KARE HIZI<b id="fpsn">—</b><span style="color:var(--mut)">testte canlı ölçülür</span></div>
+        <div class="hud loads">İşlemci<div class="seg c"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>Ekran kartı<div class="seg g"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+        <div class="hud ft">Kare süresi · son saniyeler<div class="cols"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="wrap"><div class="verdict reveal">
+  <div><b>1080p</b><div style="color:var(--cpu)">İşlemci darboğazı</div><div class="vb cpu" style="--w:.8"></div><div class="vb gpu" style="--w:1"></div><small style="color:var(--mut)">ekran kartı beklemede kalıyor</small></div>
+  <div class="me"><b>1440p</b> <small style="color:var(--gpu)">senin ekranın</small><div style="color:var(--ac)">Darboğaz yok</div><div class="vb cpu" style="--w:.8"></div><div class="vb gpu" style="--w:.6"></div><small style="color:var(--mut)">ekran kartı tam yükte</small></div>
+  <div><b>4K</b><div style="color:var(--ac)">Darboğaz yok</div><div class="vb cpu" style="--w:.8"></div><div class="vb gpu" style="--w:.28"></div><small style="color:var(--mut)">ekran kartı tam yükte</small></div>
+</div><p class="note">Temsilî görsel. Sonuçlar senin bilgisayarında ölçülür; sayılar test sahnesine aittir, oyun FPS'i tahmini değildir.</p></div></section>
+
+<section class="feat" id="all"><div class="wrap">
+  <div class="reveal"><div class="eyebrow"><code>03 //</code>İçinde ne var</div><h2>Bir uygulamada her şey</h2></div>
+  <div class="cards">
+    <div class="card reveal"><div class="viz"><div class="mrow">Oyun modu <em class="okk">Uygun</em></div><div class="mrow">Ekran kartı zamanlaması <em class="warn">Düzeltilebilir</em></div><div class="mrow">Güç planı <em class="okk">Uygun</em></div><div class="mrow">Görsel efektler <em class="warn">Düzeltilebilir</em></div></div><div class="t"><h3>Oyun hazırlığı</h3><p>Windows'un oyun için uygun olmayabilecek ayarlarını tek tek denetler; tek tıkla düzeltir, istersen geri alır.</p></div></div>
+    <div class="card reveal"><div class="viz"><div class="games"><div></div><div></div><div></div></div></div><div class="t"><h3>Oyunlar</h3><p>Yüklü oyunlarını bulur. NVIDIA kartta oyuna özel sürücü profili. Korumalı oyunlarda deneme yapmaz.</p></div></div>
+    <div class="card reveal"><div class="viz"><div class="gauge"></div><div class="needle"></div><div class="gnum">İnternet hızı · indirme / yükleme / gecikme</div></div><div class="t"><h3>Ölçümler</h3><p>Uygulama testi, darboğaz ve internet hızı. Önce ve sonra karşılaştır. Oyunda test, doğrulanmış korumasız oyun yoksa kapalı kalır.</p></div></div>
+    <div class="card reveal"><div class="viz"><div class="mrow">Ekran kartı sürücüsü <em class="warn">Güncelleme var</em></div><div class="prog"><i></i></div><div class="mrow">Yonga seti <em class="okk">Güncel</em></div><div class="mrow">BIOS <em style="color:var(--mut)">Yalnız bilgi</em></div></div><div class="t"><h3>Güncellemeler</h3><p>Sürücüler Windows Update'ten ya da üreticinin resmî paketinden, imza kontrolüyle, uygulamanın içinde.</p></div></div>
+    <div class="card reveal"><div class="viz"><div class="bars"><div></div><div></div><div></div><div></div></div><div class="gnum" style="bottom:12px">Geçici dosyalar temizleniyor</div></div><div class="t"><h3>Sistem araçları</h3><p>Geçici dosya temizliği, açılışta çalışan programlar, Windows onarımı (önce geri yükleme noktası).</p></div></div>
+    <div class="card reveal"><div class="viz"><div class="tl"><div><b>Performans Açık</b> · 4 ayar · doğrulandı</div><div><b>Düzeltme</b> · Oyun modu · geri alınabilir</div><div><b>Performans Kapalı</b> · eski değerler geri yüklendi</div><div><b>Darboğaz testi</b> · tamamlandı</div></div></div><div class="t"><h3>Geçmiş</h3><p>Yapılan her değişiklik, ne zaman, önceki değeri neydi: hepsi kayıtlı ve görünür. Testleri seçip karşılaştırabilirsin.</p></div></div>
+  </div>
+</div></section>
+
+<section class="feat" id="safe"><div class="wrap">
+  <div class="reveal" style="max-width:760px"><div class="eyebrow"><code>04 //</code>Güvenlik</div><h2>Ne yapar, ne yapmaz. Açık açık.</h2></div>
+  <div class="safe">
+    <div class="reveal"><h4>✓ Önce sorar</h4><p>Hiçbir ayar sen "Evet" demeden değişmez.</p></div>
+    <div class="reveal"><h4>✓ Geri alır</h4><p>Eski değer değişiklikten önce diske kaydedilir; yarıda kalan işlem bir sonraki açılışta toparlanır.</p></div>
+    <div class="reveal"><h4>✓ Kanıt gösterir</h4><p>Ölçmediği şeyi göstermez. "Desteklenmiyor" ile "veri yok" ayrı yazılır.</p></div>
+    <div class="reveal no"><h4>✗ Oyuna girmez</h4><p>Oyun belleği okuma, enjeksiyon, oyun içi katman yok.</p></div>
+    <div class="reveal no"><h4>✗ Korumayı kapatmaz</h4><p>Anti-cheat, antivirüs veya Windows güvenliğine dokunmaz.</p></div>
+    <div class="reveal no"><h4>✗ BIOS'a yazmaz</h4><p>BIOS ve voltaj yalnız bilgi olarak gösterilir.</p></div>
+  </div>
+</div></section>
+
+<section class="feat" id="install"><div class="wrap">
+  <div class="reveal"><div class="eyebrow"><code>05 //</code>Kurulum</div><h2>Üç adım, bir dakika</h2></div>
+  <div class="steps">
+    <div class="reveal"><span class="n">1</span><h4 style="margin:0 0 4px">İndir</h4><p style="margin:0;color:var(--mut)">Kurulum dosyası kurmadan önce daha yeni sürüm var mı diye bakar.</p></div>
+    <div class="reveal"><span class="n">2</span><h4 style="margin:0 0 4px">Kur</h4><p style="margin:0;color:var(--mut)">Kurulumda yönetici izni istenir. Masaüstü ve Başlat menüsüne simge eklenir.</p></div>
+    <div class="reveal"><span class="n">3</span><h4 style="margin:0 0 4px">Aç</h4><p style="margin:0;color:var(--mut)">Performans Açık de. Yeni sürümler kendiliğinden gelir.</p></div>
+  </div>
+  <div class="smart reveal">⚠ <b>Windows "bilgisayarınız korundu" derse:</b> Ecu Fps henüz dijital imzalı değil (ücretsiz alpha). <b>Ek bilgi → Yine de çalıştır</b>. İndirme GitHub'daki resmî yayın sayfasından yapılır.<span class="v-sha"></span></div>
+</div></section>
+
+<section class="feat" id="faq"><div class="wrap">
+  <div class="reveal"><div class="eyebrow"><code>06 //</code>SSS</div><h2>Sık sorulanlar</h2></div>
+  <details class="reveal"><summary>Ecu Fps FPS'i artırır mı?</summary><p>FPS artışı vaat etmiyoruz. Şimdiye kadar tek bir bilgisayarda yapılan ilk gerçek ölçümde ölçülebilir bir fark çıkmadı ("Fark yok"). Ecu Fps bu yüzden kazanç varsaymaz: senin bilgisayarında ölçer ve sonucu fark olsa da olmasa da olduğu gibi gösterir. Ecu Fps güç planı, ekran kartı zamanlaması, oyun modu ve arka plan ayarlarından listelenen, geri alınabilir değişiklikleri onayınla uygular. Etki donanıma, oyuna ve sistemin mevcut ayarlarına bağlıdır; bazı bilgisayarlarda ölçülebilir bir fark çıkmayabilir. Bu yüzden sabit bir rakam verilmez: "Etkiyi ölç", Performans Kapalı ve Açıkken aynı test sahnesini sırayla çalıştırıp bu bilgisayarda fark olup olmadığını gösterir. Sonuç yalnız o test sahnesi içindir, oyun FPS'i tahmini değildir.</p></details>
+  <details class="reveal"><summary>Oyun hesabım için risk oluşturur mu?</summary><p>Ecu Fps yalnızca Windows ve sürücü ayarlarıyla çalışır. Oyun dosyalarına ve oyun belleğine erişmez, oyuna kod enjekte etmez, oyun içi katman kullanmaz ve anti-cheat yazılımlarına müdahale etmez; hile yazılımlarıyla ilişkilendirilen tekniklerin hiçbiri kullanılmaz. Oyun yayıncılarının politikaları bizim kontrolümüzde olmadığından hiçbir üçüncü taraf yazılım için mutlak garanti verilemeyeceğini de açıkça belirtiriz.</p></details>
+  <details class="reveal"><summary>Yapılan değişiklikler geri alınabilir mi?</summary><p>Evet. Her ayar değiştirilmeden önce mevcut değeri kalıcı olarak kaydedilir; değişiklik uygulandıktan sonra geri okunarak doğrulanır. Performans Kapalı seçildiğinde, "Geri yüklensin mi? Evet / Hayır" sorusuyla sistem fabrika ayarlarına değil, Ecu Fps'ten önceki kendi ayarlarına döner. Tepsiden Çık ise ayarları geri almaz; uygulama her açılışta ayarların gerçek durumunu Windows'tan okur. İşlem yarıda kesilirse bir sonraki açılışta otomatik olarak tamamlanır veya geri alınır.</p></details>
+  <details class="reveal"><summary>Windows neden "bilgisayarınız korundu" uyarısı gösteriyor?</summary><p>Ecu Fps şu anda ücretsiz alpha sürecinde olduğu için henüz dijital imza sertifikası taşımamaktadır. Windows SmartScreen, imzasız ve yeni yayımlanmış dosyalar için bu uyarıyı standart olarak gösterir. Dosyayı yalnızca resmî GitHub yayın sayfasından indirmeniz ve sayfada yer alan SHA-256 değeriyle karşılaştırmanız önerilir; ardından "Ek bilgi → Yine de çalıştır" ile devam edebilirsiniz.</p></details>
+  <details class="reveal"><summary>Yönetici izni neden isteniyor?</summary><p>Güç planı ve sistem ayarları gibi değişiklikler Windows tarafından yönetici yetkisi gerektirir. Bu izin kurulum sırasında bir kez istenir ve yalnızca Ecu Fps'in kendi yardımcı hizmetine verilir; günlük aç/kapa ayarları bu hizmetle yapılır. Yani yönetici izni yalnız kurulumda değildir: DNS değiştirme, sürücü veya üretici paketi kurma gibi daha hassas işlemlerde Windows ayrıca yönetici onayı sorar. Her değişiklik yine "Uygulansın mı? Evet / Hayır" onayından geçer.</p></details>
+  <details class="reveal"><summary>Hangi sistemlerde çalışır?</summary><p>Windows 10 ve Windows 11, 64 bit. NVIDIA, AMD ve Intel ekran kartları desteklenir; kullanılabilen özellikler kartın ve sürücünün sunduğu imkânlara göre belirlenir. Desteklenmeyen bir özellik gizlenmez, uygulamada açıkça "desteklenmiyor" olarak gösterilir.</p></details>
+  <details class="reveal"><summary>Ücretli mi?</summary><p>Hayır. Ecu Fps tamamen ücretsizdir; abonelik, reklam veya uygulama içi satın alma içermez.</p></details>
+  <details class="reveal"><summary>Nasıl kaldırılır?</summary><p>Uygulama içinden Ayarlar → Kaldır ya da Windows Ayarlar → Uygulamalar üzerinden kaldırılabilir. Kaldırma sırasında Ecu Fps'in yaptığı değişiklikler önce önceki değerlerine geri yüklenir, ardından program dosyaları, yardımcı hizmet ve kısayollar sistemden temizlenir.</p></details>
+</div></section>
+
+<section class="final"><div class="wrap reveal">
+  <h2>Hazırsan <span class="hl">başla</span>.</h2><p class="lead">Ücretsiz · Türkçe · Windows 10/11</p>
+  <a class="btn dl" href="https://github.com/ykp61/Ecu-Fps-releases/releases/latest">⬇ Ecu Fps <span class="v-num"></span> indir</a>
+</div></section>
+<footer><div class="wrap"><div class="flinks"><a href="rehber/kurulum.html">Kurulum rehberi</a><a href="rehber/cs2-akicilik-rehberi.html">CS2 rehberi</a><a href="rehber/valorant-akicilik-rehberi.html">VALORANT rehberi</a><a href="rehber/fps-dusmesi.html">FPS düşmesi</a><a href="guvenlik-seffaflik.html">Güvenlik ve şeffaflık</a><a href="gizlilik-kvkk.html">Gizlilik / KVKK</a><a href="eula.html">Kullanım koşulları</a><a href="ucuncu-taraf-lisanslari.html">Üçüncü taraf lisansları</a></div>© 2026 Ecu Fps · Sürüm bilgisi GitHub yayınlarından otomatik alınır</div></footer>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+// test sahnesi parçacıkları (temsilî animasyon)
+const sc=document.getElementById('scene'),cols=['#3DFF7A','#22C7FF','#b44bff','#FFB21E'];
+for(let i=0;i<46;i++){const s=document.createElement('span');s.className='shard';const a=Math.random()*6.28,r=260+Math.random()*260;
+s.style.cssText=`left:50%;top:50%;background:${cols[i%4]};--x:${Math.cos(a)*r}px;--y:${Math.sin(a)*r}px;animation-delay:${-Math.random()*2.4}s;transform:rotate(${a}rad)`;sc.appendChild(s)}
+new IntersectionObserver(es=>{sc.style.animationPlayState=es[0].isIntersecting?'running':'paused'}).observe(sc);
+// Menü: ekrandaki bölümün bağlantısı parlar.
+const navs=[...document.querySelectorAll('.nav a')],secs=navs.map(a=>document.querySelector(a.getAttribute('href')));
+function spy(){const y=innerHeight*.35;let cur=null;secs.forEach((s,i)=>{if(s&&s.getBoundingClientRect().top<=y)cur=i});navs.forEach((a,i)=>a.classList.toggle('on',i===cur))}
+let spyQ=false;addEventListener('scroll',()=>{if(!spyQ){spyQ=true;requestAnimationFrame(()=>{spyQ=false;spy()})}},{passive:true});spy();
+// Güncel sürüm: sunucu GitHub'dan 5 dk'da bir version.json yazar.
+fetch('v/version.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null).then(d=>{
+  if(!d||!/^\d+(\.\d+){1,3}$/.test(d.version)||!/^https:\/\/github\.com\/ykp61\/Ecu-Fps-releases\//.test(d.url))return;
+  document.querySelectorAll('.v-num').forEach(e=>e.textContent=d.version);
+  document.querySelectorAll('.v-line').forEach(e=>e.hidden=false);
+  document.querySelectorAll('.v-tag').forEach(e=>e.textContent='v'+d.version);
+  document.querySelectorAll('a.dl').forEach(a=>a.href=d.url);
+  const m=[];if(d.date)m.push(new Date(d.date).toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'}));
+  if(d.size)m.push((d.size/1048576).toLocaleString('tr-TR',{maximumFractionDigits:1})+' MB');
+  document.querySelectorAll('.v-meta').forEach(e=>e.textContent=m.length?' · '+m.join(' · '):'');
+  if(d.sha256&&/^[0-9a-f]{64}$/.test(d.sha256))document.querySelectorAll('.v-sha').forEach(e=>e.textContent=' SHA-256: '+d.sha256);
+}).catch(()=>{});
+</script>
+</body>
+</html>
