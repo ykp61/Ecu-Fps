@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ecufast.asilpolat.com/sitemap.xml
+Sitemap: https://ecufps.asilpolat.com/sitemap.xml
