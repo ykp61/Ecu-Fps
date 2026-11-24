@@ -1,0 +1,191 @@
+{
+  "schema_version": 2,
+  "status": "asset_spec_ready_runtime_targets_unmeasured",
+  "unit": "DIP",
+  "colors": {
+    "background": "#05070B",
+    "sidebar": "#030508",
+    "surface": "#0B0F17",
+    "surface_raised": "#121824",
+    "border": "#6E7A8A",
+    "text_primary": "#F1F5F9",
+    "text_secondary": "#8A99AD",
+    "accent": "#3DFF7A",
+    "on_accent": "#04140A",
+    "violet": "#A64DFF",
+    "success": "#3DFF7A",
+    "warning": "#FFCC00",
+    "error": "#FF5C7A",
+    "icon_mark": "#3DFF7A",
+    "icon_plate": "#10151E",
+    "icon_plate_border": "#0B8F3C",
+    "tray_dark_active": "#3DFF7A",
+    "tray_dark_neutral": "#7B8490",
+    "tray_light_active": "#0B8F3C",
+    "tray_light_neutral": "#808994",
+    "tray_preview_dark_taskbar": "#1B1B1B",
+    "tray_preview_light_taskbar": "#EEF1F4",
+    "high_contrast_white": "#FFFFFF",
+    "high_contrast_black": "#000000",
+    "focus_ring": "#FFFFFF",
+    "icon_secondary": "#00D4FF",
+    "icon_mark_light": "#0B8F3C",
+    "icon_secondary_light": "#00708F",
+    "cyan": "#00D4FF",
+    "orange": "#FF8A1F"
+  },
+  "font_families": [
+    "Segoe UI Variable",
+    "Segoe UI"
+  ],
+  "font_redistribution": false,
+  "type": {
+    "page_title": [
+      26,
+      34,
+      "Semibold"
+    ],
+    "state_title": [
+      22,
+      30,
+      "Semibold"
+    ],
+    "section": [
+      18,
+      26,
+      "Semibold"
+    ],
+    "body": [
+      14,
+      20,
+      "Regular"
+    ],
+    "secondary": [
+      12,
+      18,
+      "Regular"
+    ],
+    "metric": [
+      28,
+      34,
+      "Semibold"
+    ]
+  },
+  "spacing": [
+    4,
+    8,
+    12,
+    16,
+    20,
+    24
+  ],
+  "radii": {
+    "control": 6,
+    "card": 10,
+    "dialog": 12
+  },
+  "controls": {
+    "toggle": [
+      48,
+      28
+    ],
+    "button_height": 40,
+    "button_min_width": 112,
+    "touch_hit_target_min": 44,
+    "sidebar_width": [
+      192,
+      208
+    ],
+    "min_window": [
+      960,
+      540
+    ],
+    "icon_button_visual": [
+      32,
+      32
+    ],
+    "keyboard_focus_ring_width": 2
+  },
+  "motion_ms": {
+    "hover": 80,
+    "press": 60,
+    "toggle": 120,
+    "page": 140,
+    "details": 160,
+    "dialog_open": 160,
+    "dialog_close": 100,
+    "status": 120,
+    "reduced_motion": 0,
+    "optional_logo_reveal": 160
+  },
+  "easing": [
+    0.16,
+    1,
+    0.3,
+    1
+  ],
+  "continuous_idle_animation": false,
+  "idle_budgets": {
+    "background_total_private_working_set_MiB_max": 50,
+    "ui_total_private_working_set_MiB_max": 150,
+    "total_machine_cpu_average_percent_max": 0.2,
+    "cpu_measurement_window_seconds": 60,
+    "ui_response_p95_ms_max": 100,
+    "cold_usable_ui_ssd_seconds_target": 2
+  },
+  "benchmark_load_excluded_from_idle_budget": true,
+  "brand": "Ecu Fps",
+  "brand_concept": "04 / BOOST LINE",
+  "brand_version": "2.0.0",
+  "logo": {
+    "wordmark": "custom_outlined_paths",
+    "font_required": false,
+    "lockup_min_width_DIP": 160,
+    "clear_space_ratio_of_symbol_width": 0.1,
+    "preserve_aspect_ratio": true,
+    "svg_master": "assets/logo/svg/ecu-fps-lockup-dark.svg",
+    "italic_skew_deg": 10.0,
+    "mark_stroke_units_of_256": 36,
+    "speed_line_ratio_of_stroke": 0.5,
+    "knockout_gap_ratio_of_stroke": 0.3333,
+    "chamfer_ratio_of_stroke": 0.3333
+  },
+  "motion_policy": {
+    "decorative_animation_during_benchmark": false,
+    "tray_animation": false,
+    "event_driven_only": true,
+    "block_actions_until_animation_ends": false,
+    "max_translation_DIP": 4,
+    "effects": {
+      "blur": false,
+      "particles": false,
+      "glow": false,
+      "background_video": false,
+      "sound": false
+    }
+  },
+  "distribution": {
+    "runtime_external_asset_files": false,
+    "download_fonts_at_runtime": false,
+    "embed_only_required_variants": true,
+    "preview_and_docs_in_exe": false
+  },
+  "contrast": {
+    "mark_green_on_plate": 13.75,
+    "mark_green_on_app_bg": 15.15,
+    "cyan_on_plate": 10.33,
+    "plate_on_white": 18.29,
+    "light_green_on_white": 4.19,
+    "light_cyan_on_white": 5.65,
+    "text_on_app_bg": 18.4,
+    "text2_on_app_bg": 6.95,
+    "ink_on_white": 19.18,
+    "tray_dark_active_on_1B1B1B": 12.95,
+    "tray_dark_neutral_on_1B1B1B": 4.55,
+    "tray_light_active_on_EEF1F4": 3.7,
+    "tray_light_neutral_on_EEF1F4": 3.13,
+    "tray_light_neutral_previous_808994_on_EEF1F4": 3.13,
+    "tray_hc_white_on_black": 21.0,
+    "tray_hc_black_on_white": 21.0
+  }
+}

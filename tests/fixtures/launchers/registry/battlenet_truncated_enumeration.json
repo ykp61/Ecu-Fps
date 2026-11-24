@@ -1,0 +1,12 @@
+{
+ "enumeration_error": true,
+ "entries": [
+  {
+   "key": "Synthetic_Blizzard_A",
+   "display_name": "Synthetic BNet Game",
+   "publisher": "Blizzard Entertainment",
+   "uninstall_string": "\"C:\\ProgramData\\Battle.net\\Agent\\Blizzard Uninstaller.exe\" --lang=enUS --uid=synth_a --displayname=\"Synthetic BNet Game\"",
+   "install_location": "C:\\Synthetic\\Blizzard\\GameA\\"
+  }
+ ]
+}

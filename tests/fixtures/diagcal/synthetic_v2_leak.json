@@ -1,0 +1,4 @@
+{"schema_version":2,"format":"diagcal_v2","samples":[
+ {"id":"leak-a","provenance":"synthetic","label":"gpu_bound","label_method":"controlled_experiment","machine_group":"fx-a","run_group":"fx-shared","cpu_vendor":"intel","gpu_vendor":"nvidia","form_factor":"desktop","storage_kind":"ssd","avg_fps":120.0,"frames":240,"refresh_hz":144.0,"fps_cap_known_none":true,"vsync":"off","metrics":{"gpu_engine_3d_pct":97.0,"cpu_max_core_pct":55.0}},
+ {"id":"leak-b","provenance":"synthetic","label":"healthy","label_method":"controlled_experiment","machine_group":"fx-b","run_group":"fx-shared","cpu_vendor":"intel","gpu_vendor":"nvidia","form_factor":"desktop","storage_kind":"ssd","avg_fps":166.0,"frames":240,"refresh_hz":240.0,"fps_cap_known_none":true,"vsync":"off","metrics":{"gpu_engine_3d_pct":80.0,"cpu_max_core_pct":70.0}}
+]}

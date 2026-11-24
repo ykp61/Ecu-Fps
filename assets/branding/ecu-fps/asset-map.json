@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "brand": "Ecu Fps",
+  "version": "2.0.0",
+  "path_base": "package_root",
+  "app": {
+    "file": "assets/app/ecu-fps.ico",
+    "sizes": [
+      16,
+      20,
+      24,
+      30,
+      32,
+      36,
+      40,
+      48,
+      60,
+      64,
+      72,
+      80,
+      96,
+      128,
+      256
+    ],
+    "format": "ICO 32bpp BGRA DIB with AND mask; 256px PNG",
+    "small_optical_unplated_through_px": 0,
+    "mark_color": "#3DFF7A",
+    "plate_color": "#10151E",
+    "plate_border_color": "#0B8F3C",
+    "svg": "assets/app/svg/ecu-fps-app-tile.svg",
+    "secondary_accent_color": "#00D4FF",
+    "flat_through_px": 32,
+    "flat_svg": "assets/app/svg/ecu-fps-app-tile-flat.svg",
+    "png_256": "assets/app/png/ecu-fps-256.png",
+    "finish": "<=32 px and forced-colors/prefers-contrast: flat plate, solid mark. >=36 px: plate gradient, soft inner glow, border, hairline highlight (>=48 px)."
+  },
+  "logo": {
+    "horizontal_dark": "assets/logo/svg/ecu-fps-lockup-dark.svg",
+    "horizontal_light": "assets/logo/svg/ecu-fps-lockup-light.svg",
+    "monochrome_white": "assets/logo/svg/ecu-fps-lockup-white.svg",
+    "monochrome_ink": "assets/logo/svg/ecu-fps-lockup-ink.svg",
+    "symbol": "assets/logo/svg/ef-mark.svg",
+    "symbol_currentcolor": "assets/logo/svg/ef-mark-currentcolor.svg",
+    "stacked_dark": "assets/logo/svg/ecu-fps-stacked-dark.svg",
+    "stacked_light": "assets/logo/svg/ecu-fps-stacked-light.svg",
+    "symbol_light": "assets/logo/svg/ef-mark-light.svg"
+  },
+  "tray": {
+    "sizes": [
+      16,
+      20,
+      24,
+      32,
+      40,
+      48,
+      64
+    ],
+    "variants": {
+      "dark-active": {
+        "file": "assets/tray/tray-dark-active.ico",
+        "color": "#3DFF7A",
+        "shape": "filled, with arrowhead",
+        "svg": "assets/tray/svg/tray-dark-active.svg"
+      },
+      "dark-neutral": {
+        "file": "assets/tray/tray-dark-neutral.ico",
+        "color": "#7B8490",
+        "shape": "filled, no arrowhead",
+        "svg": "assets/tray/svg/tray-dark-neutral.svg"
+      },
+      "light-active": {
+        "file": "assets/tray/tray-light-active.ico",
+        "color": "#0B8F3C",
+        "shape": "filled, with arrowhead",
+        "svg": "assets/tray/svg/tray-light-active.svg"
+      },
+      "light-neutral": {
+        "file": "assets/tray/tray-light-neutral.ico",
+        "color": "#808994",
+        "shape": "filled, no arrowhead",
+        "svg": "assets/tray/svg/tray-light-neutral.svg"
+      },
+      "hc-white": {
+        "file": "assets/tray/tray-hc-white.ico",
+        "color": "#FFFFFF",
+        "svg": "assets/tray/svg/tray-hc-white.svg"
+      },
+      "hc-black": {
+        "file": "assets/tray/tray-hc-black.ico",
+        "color": "#000000",
+        "svg": "assets/tray/svg/tray-hc-black.svg"
+      }
+    },
+    "state_policy": {
+      "confirmed_active": {
+        "dark": "dark-active",
+        "light": "light-active"
+      },
+      "confirmed_off": {
+        "dark": "dark-neutral",
+        "light": "light-neutral"
+      },
+      "unknown_or_transition": {
+        "dark": "dark-neutral",
+        "light": "light-neutral",
+        "required_status_text": true
+      },
+      "high_contrast": "Choose system foreground; provided black/white are fallbacks. Read confirmed state in tooltip/menu."
+    },
+    "state_shape": "filled mono mark in both states; state is carried by colour AND shape: active = green with the arrowhead, neutral = grey, speed line ends blunt (no arrowhead). High-contrast icons use the full mark.",
+    "generator": "_build.py in this folder (app, tray, web, setup; every ICO is regenerated)",
+    "optical_sources": "assets/tray/svg/optical/tray-{size}-{active|neutral}.svg (currentColor, pixel-grid art per size)"
+  },
+  "suggested_resources": {
+    "IDI_ECUFPS_APP": 101,
+    "IDI_TRAY_DARK_ACTIVE": 201,
+    "IDI_TRAY_DARK_NEUTRAL": 202,
+    "IDI_TRAY_LIGHT_ACTIVE": 203,
+    "IDI_TRAY_LIGHT_NEUTRAL": 204,
+    "IDI_TRAY_HC_WHITE": 205,
+    "IDI_TRAY_HC_BLACK": 206
+  },
+  "resource_ids_are_proposals": true,
+  "production_exclusions": [
+    "reference/",
+    "preview/",
+    "docs/",
+    "design/geometry.json",
+    "_build.py",
+    "_meta.py",
+    "PROVENANCE.md"
+  ],
+  "native_windows_validation": "pending",
+  "web": {
+    "favicon_svg": "assets/web/favicon.svg",
+    "favicon_ico": "assets/web/favicon.ico",
+    "favicon_ico_sizes": [
+      16,
+      32,
+      48
+    ],
+    "apple_touch_icon": "assets/web/apple-touch-icon.png",
+    "og_image": "assets/web/og-image.png",
+    "logo_512": "assets/web/logo-512.png",
+    "site_header": "assets/web/site-header.svg",
+    "site_header_dark": "assets/web/site-header-dark.svg",
+    "site_header_light": "assets/web/site-header-light.svg"
+  },
+  "setup": {
+    "banner_svg": "assets/setup/setup-banner.svg",
+    "banner_png": "assets/setup/setup-banner.png",
+    "banner_size": [
+      164,
+      314
+    ],
+    "header_png": "assets/setup/setup-header.png",
+    "header_svg": "assets/setup/setup-header.svg",
+    "header_size": [
+      300,
+      114
+    ]
+  }
+}

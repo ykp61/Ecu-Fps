@@ -1,0 +1,17 @@
+{
+ "status": "found",
+ "items": [
+  {
+   "id": "5000001",
+   "name": "Synthetic GOG Game",
+   "path": "C:\\Synthetic\\GOG\\Game",
+   "exe": "Game.exe"
+  },
+  {
+   "id": "5000002",
+   "name": "Second GOG",
+   "path": "C:\\Synthetic\\GOG\\Second",
+   "exe": ""
+  }
+ ]
+}

@@ -1,0 +1,29 @@
+build/
+out/
+dist/
+.vs/
+.cache/
+*.user
+*.suo
+*.pdb
+*.obj
+*.ilk
+*.exe
+*.dll
+*.pfx
+*.p12
+*.key
+.env
+.env.*
+!.env.example
+CLAUDE.local.md
+.claude/settings.local.json
+artifacts/raw/
+artifacts/private/
+
+# Claude Code yerel calisma alanlari (alt ajan worktree leri)
+.claude/
+
+# Yerel indirme kopyasi (derleme ciktisi; release/site icerigi ayrica yuklenir)
+release/site/*.zip
+__pycache__/

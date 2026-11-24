@@ -1,0 +1,39 @@
+{
+ "entries": [
+  {
+   "key": "Battle.net",
+   "display_name": "Battle.net",
+   "publisher": "Blizzard Entertainment",
+   "uninstall_string": "\"C:\\ProgramData\\Battle.net\\Agent\\Blizzard Uninstaller.exe\" --lang=enUS --uid=synth_a --displayname=\"Synthetic BNet Game\"",
+   "install_location": "C:\\Program Files\\Battle.net"
+  },
+  {
+   "key": "Other_Publisher",
+   "display_name": "Other",
+   "publisher": "Someone Else",
+   "uninstall_string": "\"C:\\ProgramData\\Battle.net\\Agent\\Blizzard Uninstaller.exe\" --lang=enUS --uid=synth_a --displayname=\"Synthetic BNet Game\"",
+   "install_location": "C:\\Other"
+  },
+  {
+   "key": "Other_Uninstaller",
+   "display_name": "Other2",
+   "publisher": "Blizzard Entertainment",
+   "uninstall_string": "\"C:\\Other\\unins000.exe\"",
+   "install_location": "C:\\Other2"
+  },
+  {
+   "key": "Synthetic_Blizzard_A",
+   "display_name": "Synthetic BNet Game",
+   "publisher": "Blizzard Entertainment",
+   "uninstall_string": "\"C:\\ProgramData\\Battle.net\\Agent\\Blizzard Uninstaller.exe\" --lang=enUS --uid=synth_a --displayname=\"Synthetic BNet Game\"",
+   "install_location": "C:\\Synthetic\\Blizzard\\GameA\\"
+  },
+  {
+   "key": "Synthetic_Blizzard_A",
+   "display_name": "Synthetic BNet Game",
+   "publisher": "Blizzard Entertainment",
+   "uninstall_string": "\"C:\\ProgramData\\Battle.net\\Agent\\Blizzard Uninstaller.exe\" --lang=enUS --uid=synth_a --displayname=\"Synthetic BNet Game\"",
+   "install_location": "C:\\Synthetic\\Blizzard\\GameA\\"
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+[Unit]
+Description=Ecu Fps site: refresh version.json from GitHub releases
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 -I /opt/ecufps-site/update_version.py
+User=nobody
+Group=nogroup
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/ecufps-site/v
+PrivateTmp=true

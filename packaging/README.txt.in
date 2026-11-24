@@ -1,0 +1,18 @@
+Ecu Fps - Portable surum
+Surum: @PROJECT_VERSION@ (imzasiz alpha)
+
+Kurulum gerekmez: uygulama tek dosyadir (EcuFps.exe). Yaninda DLL, config
+veya asset dosyasi gerekmez. Desteklenen sistem: Windows 10/11 x64.
+
+- Kalici kayitlar ve islem journal'i kullanici profilinde tutulur; EXE'nin
+  yanina calisma dosyasi yazilmaz.
+- Yonetici haklari yalniz kullanicinin Evet dedigi islemler icin UAC ile
+  istenir. Uygulama normal kullanici duzeyinde acilir.
+- Uygulama icinde Ayarlar > "Ucuncu taraf lisanslari" bolumu lisans
+  metinlerini gosterir.
+- LICENSE.txt: urun lisansi. NOTICE.txt: gomulu/yaninda kullanilan ucuncu
+  taraf bilesenler ve MIT lisans metinleri.
+
+Bu surum Authenticode ile imzalanmamistir (B-003: imzalama sertifikasi yok).
+Windows SmartScreen imzasiz uygulama uyarisi gosterebilir. Surum numarasi ve
+dosya hash'i icin proje yayin kaydina (artifacts/evidence) bakin.

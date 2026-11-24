@@ -1,0 +1,48 @@
+#include <winver.h>
+#include "ui/brand/brand_resources.h"
+#include "ef_build_id.h"
+
+#pragma code_page(65001)
+
+// BRAND-01: onayli marka 2.0.0 (Boost Line EF) ikonlari (assets/branding/ecu-fps). Birincil uygulama ikonu en dusuk kimlik.
+IDI_ECUFPS_APP         ICON "../../assets/branding/ecu-fps/app/ecu-fps.ico"
+IDI_TRAY_DARK_ACTIVE   ICON "../../assets/branding/ecu-fps/tray/tray-dark-active.ico"
+IDI_TRAY_DARK_NEUTRAL  ICON "../../assets/branding/ecu-fps/tray/tray-dark-neutral.ico"
+IDI_TRAY_LIGHT_ACTIVE  ICON "../../assets/branding/ecu-fps/tray/tray-light-active.ico"
+IDI_TRAY_LIGHT_NEUTRAL ICON "../../assets/branding/ecu-fps/tray/tray-light-neutral.ico"
+IDI_TRAY_HC_WHITE      ICON "../../assets/branding/ecu-fps/tray/tray-hc-white.ico"
+IDI_TRAY_HC_BLACK      ICON "../../assets/branding/ecu-fps/tray/tray-hc-black.ico"
+
+#define EF_STR2(x) #x
+#define EF_STR(x) EF_STR2(x)
+#define EF_VERSION_STR EF_STR(EF_VERSION_MAJOR) "." EF_STR(EF_VERSION_MINOR) "." EF_STR(EF_VERSION_PATCH)
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION EF_VERSION_MAJOR,EF_VERSION_MINOR,EF_VERSION_PATCH,0
+ PRODUCTVERSION EF_VERSION_MAJOR,EF_VERSION_MINOR,EF_VERSION_PATCH,0
+ FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
+ FILEFLAGS 0x0L
+ FILEOS VOS_NT_WINDOWS32
+ FILETYPE VFT_APP
+ FILESUBTYPE VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041F04B0"
+        BEGIN
+            VALUE "CompanyName", "Ecu Fps"
+            VALUE "FileDescription", "Ecu Fps"
+            VALUE "FileVersion", EF_VERSION_STR
+            VALUE "ProductVersion", EF_VERSION_STR
+            VALUE "LegalCopyright", "(c) Ecu Fps"
+            VALUE "InternalName", "EcuFps"
+            VALUE "OriginalFilename", "EcuFps.exe"
+            VALUE "ProductName", "Ecu Fps"
+            VALUE "SpecialBuild", EF_BUILD_ID_STR
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x41F, 1200
+    END
+END

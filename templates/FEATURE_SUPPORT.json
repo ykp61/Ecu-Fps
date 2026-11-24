@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "feature_id": null,
+  "implementation_status": "not_started",
+  "release_enabled": false,
+  "supported_combinations": [],
+  "unsupported_reasons": [],
+  "required_privileges": [],
+  "evidence_paths": [],
+  "last_verified_at": null
+}

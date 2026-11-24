@@ -1,0 +1,4 @@
+{
+  "vendor.ll.amd.title": ["AMD düşük gecikme (salt okuma)", "AMD low latency (read only)"],
+  "vendor.ll.intel.title": ["Intel düşük gecikme (salt okuma)", "Intel low latency (read only)"]
+}

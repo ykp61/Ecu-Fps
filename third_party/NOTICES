@@ -1,0 +1,209 @@
+Ecu Fps - Third-Party Notices
+Version 0.1.0 (unsigned alpha) - updated 2026-11-08
+
+This file is shipped inside the portable ZIP as NOTICE.txt. The application
+also exposes these notices in Settings > Third-party licenses. The full text
+of every applicable license is reproduced at the end of this file.
+
+1. Embedded in EcuFps.exe
+---------------------------
+- NVIDIA NVAPI SDK headers
+  Version/commit: 70d337db9186e968eab622f7e786de7e437faf3d (2026-09-18)
+  Source: https://github.com/NVIDIA/nvapi
+  License: MIT (third_party/nvapi/License.txt)
+  Use: compile-time headers only. nvapi64.dll is not redistributed; it is
+  loaded from System32 by the installed NVIDIA driver after signature
+  verification (GPU-01/GPU-02). No static .lib is vendored.
+
+- Microsoft MSVC CRT/STL
+  Version: 14.44.35207
+  License: Microsoft Visual C++ runtime terms; static linking into the
+  application is permitted by the toolchain license. No VC++ redistributable
+  is required at runtime (static /MT).
+
+- JetBrains Mono 2.304 (font subset: Medium, SemiBold)
+  Source: https://github.com/JetBrains/JetBrainsMono/releases/tag/v2.304
+  License: SIL Open Font License 1.1 (third_party/fonts/jetbrains-mono/OFL.txt)
+  Use: subset (Latin + Turkish + UI symbols; fontTools) compiled into the EXE as
+  byte arrays and loaded by DirectWrite as an in-memory font collection for the
+  Panel's technical labels. No font file is written to disk or shipped loose.
+  Copyright and license name records are kept inside the embedded fonts; the
+  full license text is shown in Settings > Third-party licenses.
+
+- 02/BOOST brand assets
+  Version: 1.0.0
+  Owner: Ecu Fps (user-provided asset package, ADR-017); not third-party OSS.
+  Embedded as ICO/SVG resources, no loose asset files.
+
+2. Vendored source compiled into developer/test tools only
+----------------------------------------------------------
+- Intel PresentMon - PresentData (ETW present consumer)
+  Version/commit: v2.6.0 / e13fce6acdb55a808fd8318175a56863e532d95f
+  Source: https://github.com/GameTechDev/PresentMon
+  License: MIT (third_party/presentmon/LICENSE.txt)
+  Use: static library ef_presentdata in the measurement layer. At the time
+  of this package the measurement layer is linked only into test/tool
+  binaries (ef_frame_probe, ef_game_capture); it is NOT linked into
+  EcuFps.exe. The PresentMon service, PresentMonAPI2.dll, cereal and
+  concurrentqueue are not included.
+
+3. Not included / excluded
+---------------------------
+- AMD ADLX SDK: NOT included. The ADLX SDK License Agreement is not MIT and
+  has not been accepted (blocker B-006); no headers are vendored and no ADLX
+  code is linked. AMD adapter logic is compiled against an internal interface
+  only and reports unsupported on AMD runtime paths until B-006 is resolved.
+- Intel IGCL: NOT included. No Intel GPU is available on the build PC
+  (blocker B-004); the capability remains unsupported and no ControlLib
+  headers or runtime lookups are shipped.
+- Windows system DLLs (user32, kernel32, gdi32, d2d1, dwrite, d3d11, dxgi,
+  etc.): part of Windows; redistributed only by the OS, never copied into the
+  package.
+- Fonts and Windows visual assets: Segoe UI Variable and the other system
+  fonts are used at runtime and not distributed. The only font shipped is the
+  embedded JetBrains Mono subset listed in section 1 (no loose font file).
+- Windows driver runtime DLLs: remain in their trusted System32 location and
+  are loaded after signature verification; they are not packaged.
+
+4. Full license texts
+---------------------
+NVIDIA NVAPI SDK headers - MIT:
+
+SPDX-FileCopyrightText: Copyright (c) 2024 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+SPDX-License-Identifier: MIT
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+Intel PresentMon PresentData - MIT:
+
+Copyright (C) 2017-2024 Intel Corporation
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom
+the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
+OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+OR OTHER DEALINGS IN THE SOFTWARE.
+
+JetBrains Mono - SIL Open Font License 1.1:
+
+Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+https://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded, 
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.

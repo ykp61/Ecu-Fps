@@ -1,0 +1,14 @@
+{
+  "package_version": "3.0",
+  "created_date": "2026-11-04",
+  "timezone": "Europe/Istanbul",
+  "origin": {
+    "library_file_id": "libfile_cffba47d84dc819187e3847c10d56900",
+    "version": 0,
+    "filename": "Performans_Planlama_Paketi_v2.zip",
+    "sha256": "8c3363e3ee3b4b59cfb547d59509a9af042ebe2d07d679068af91d3f1ed50820"
+  },
+  "scope": "documentation and AI coding handoff; no application implementation",
+  "new_images_generated": false,
+  "archive_files_preserved": 11
+}

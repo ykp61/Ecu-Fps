@@ -1,0 +1,94 @@
+name: ci
+
+# Tetikleyiciler ACIK kalir (sahip karari, 2026-11-18). GitHub faturasi / harcama limiti duzelmedikce bu is
+# baslamaz ve kirmizi gorunur (state/BLOCKERS.md B-008); bu kod hatasi degildir. Gercek kapi yerel CI'dir:
+# scripts\local_ci.ps1 (temiz klonda debug + dist, HEAD'e bagli gunluk) ve yayin kapisi publish_release.ps1.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows:
+    name: windows-msvc (${{ matrix.config }})
+    # Makine secimi repo degiskeniyle (Settings > Secrets and variables > Actions > Variables): EF_RUNS_ON.
+    # Bos birakilirsa GitHub-hosted windows-2025. Self-hosted icin ornek deger (JSON):
+    #   ["self-hosted","windows","ecufps-local"]   (scripts\runner_setup.ps1 sahip tarafindan calistirilir)
+    runs-on: ${{ fromJSON(vars.EF_RUNS_ON || '"windows-2025"') }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        # release, dist ile ayni kaynaktan farkli bayrakla derlenir ve ek kanit uretmez: dakika/ucret icin dusuruldu.
+        config: [debug, dist]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Toolchain
+        shell: powershell
+        run: .\scripts\dev.ps1 env
+
+      - name: Configure, build, test
+        shell: powershell
+        run: .\scripts\dev.ps1 build -Config ${{ matrix.config }}
+
+      - name: SHA-256 (dist, imzasiz alpha)
+        if: matrix.config == 'dist'
+        shell: powershell
+        run: |
+          $exe = 'build\x64-dist\src\app\EcuFps.exe'
+          $h = (Get-FileHash -Algorithm SHA256 -LiteralPath $exe).Hash.ToLowerInvariant()
+          "EcuFps.exe sha256 $h (imzasiz alpha, kod imzalama sertifikasi yok)" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+
+      - name: Upload dist EXE (imzasiz)
+        if: matrix.config == 'dist'
+        uses: actions/upload-artifact@v4
+        with:
+          name: EcuFps-unsigned-alpha-${{ github.sha }}
+          path: build/x64-dist/src/app/EcuFps.exe
+          retention-days: 7
+          if-no-files-found: error
+
+      - name: Upload test log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ctest-log-${{ matrix.config }}
+          path: build/x64-${{ matrix.config }}/Testing/Temporary/LastTest.log
+          if-no-files-found: ignore
+
+  # ---- Imza adimi: DEVRE DISI iskelet (ADR-038) ----
+  # `if: ${{ false }}` oldugu surece bu is hic calismaz ve kullanilan eylem cozulmez. Sertifika / SignPath onayi yoktur;
+  # surum "imzasiz alpha" kalir. Etkinlestirme kosullari docs/12_DECISIONS.md ADR-038'dedir (sahip karari gerekir).
+  # Etkinlestirmeden once: eylemin surumunu resmi belgeden dogrulayip tam surume veya commit SHA'sina sabitleyin
+  # (burada yazili v1 dogrulanmadi) ve girdi adlarini kontrol edin.
+  sign:
+    name: sign (devre disi)
+    if: ${{ false }}
+    needs: windows
+    runs-on: ${{ fromJSON(vars.EF_RUNS_ON || '"windows-2025"') }}
+    permissions:
+      contents: read
+    steps:
+      - name: Submit signing request (SignPath, iskelet)
+        uses: signpath/github-action-submit-signing-request@v1
+        with:
+          connector-url: ${{ vars.SIGNPATH_CONNECTOR_URL }}
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ecu-fps
+          signing-policy-slug: release-signing
+          # Matris isleri ayni cikti adini ezer; etkinlestirirken dist artifact kimligini ayri bir dist-only is ile tasiyin.
+          github-artifact-id: DOLDURULACAK
+          wait-for-completion: true
+          output-artifact-directory: signed
+      # Imzadan sonra: signtool verify / WinVerifyTrust + SHA-256'yi gunluge yaz; imzali EXE de local_ci kapisindan
+      # gecmeden yayinlanmaz. Imza SmartScreen uyarisizligi garantisi degildir (itibar birikimi gerekir).

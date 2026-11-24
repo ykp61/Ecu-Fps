@@ -1,0 +1,9 @@
+{
+ "FormatVersion": 0,
+ "bIsIncompleteInstall": false,
+ "LaunchExecutable": "Game\\Binaries\\Win64\\SyntheticEpicGame.exe",
+ "AppVersionString": "1.2.3",
+ "AppName": "SynthEpicApp001",
+ "CatalogNamespace": "synth",
+ "CatalogItemId": "00000000000000000000000000000001",
+ "DisplayName": "Synthetic

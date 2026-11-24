@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "format": "diagcal_v1",
+  "samples": [
+    {
+      "id": "syn-gpu-001",
+      "provenance": "synthetic",
+      "label": "gpu_bound",
+      "avg_fps": 120.0,
+      "p99_ms": 9.0,
+      "frames": 240,
+      "refresh_hz": 144.0,
+      "fps_cap_known_none": true,
+      "vsync": "off",
+      "frame_interval_cv": 0.04,
+      "metrics": { "gpu_engine_3d_pct": 97.0, "cpu_max_core_pct": 55.0 }
+    },
+    {
+      "id": "syn-cpu-001",
+      "provenance": "synthetic",
+      "label": "cpu_or_engine_bound",
+      "avg_fps": 110.0,
+      "frames": 240,
+      "refresh_hz": 144.0,
+      "fps_cap_known_none": true,
+      "vsync": "off",
+      "frame_interval_cv": 0.15,
+      "metrics": { "gpu_engine_3d_pct": 48.0, "cpu_max_core_pct": 98.0 }
+    },
+    {
+      "id": "syn-cap-001",
+      "provenance": "synthetic",
+      "label": "frame_cap_or_present_wait",
+      "avg_fps": 144.0,
+      "frames": 240,
+      "refresh_hz": 144.0,
+      "fps_cap": 144.0,
+      "vsync": "off",
+      "frame_interval_cv": 0.02,
+      "metrics": { "gpu_engine_3d_pct": 60.0, "cpu_max_core_pct": 50.0 }
+    },
+    {
+      "id": "syn-healthy-001",
+      "provenance": "synthetic",
+      "label": "healthy",
+      "avg_fps": 160.0,
+      "p99_ms": 6.5,
+      "frames": 240,
+      "refresh_hz": 144.0,
+      "fps_cap_known_none": true,
+      "vsync": "off",
+      "frame_interval_cv": 0.05,
+      "metrics": { "gpu_engine_3d_pct": 80.0, "cpu_max_core_pct": 70.0 }
+    },
+    {
+      "id": "syn-insufficient-001",
+      "provenance": "synthetic",
+      "label": "insufficient",
+      "avg_fps": 100.0,
+      "frames": 120,
+      "refresh_hz": 144.0,
+      "fps_cap_known_none": true,
+      "vsync": "off",
+      "metrics": { "gpu_engine_3d_pct": 40.0 }
+    }
+  ]
+}

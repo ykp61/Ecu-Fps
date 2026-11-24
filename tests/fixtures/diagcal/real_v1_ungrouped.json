@@ -1,0 +1,3 @@
+{"schema_version":1,"format":"diagcal_v1","samples":[
+ {"id":"v1-real-fixture-1","provenance":"real","label":"healthy","avg_fps":166.0,"frames":240,"refresh_hz":240.0,"fps_cap_known_none":true,"vsync":"off","metrics":{"gpu_engine_3d_pct":80.0,"cpu_max_core_pct":70.0}}
+]}

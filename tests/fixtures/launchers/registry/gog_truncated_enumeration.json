@@ -1,0 +1,11 @@
+{
+ "status": "error",
+ "items": [
+  {
+   "id": "5000001",
+   "name": "Synthetic GOG Game",
+   "path": "C:\\Synthetic\\GOG\\Game",
+   "exe": "Game.exe"
+  }
+ ]
+}

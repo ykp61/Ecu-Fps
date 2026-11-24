@@ -1,0 +1,8 @@
+{
+  "plan.boot_tick.gate.not_verified": ["Dinamik zamanlayıcı tıkı atlandı (desteklenmiyor): bu seçenek yalıtılmış test ortamında tam tur doğrulanana kadar kapalıdır.", "Dynamic timer tick skipped (not supported): this option stays off until a full round is verified in an isolated test environment."],
+  "plan.boot_tick.gate.battery": ["Dinamik zamanlayıcı tıkı atlandı (desteklenmiyor): pilli cihazlarda önyükleme ayarı değiştirilmez.", "Dynamic timer tick skipped (not supported): the boot setting is not changed on battery-powered devices."],
+  "plan.boot_tick.gate.power_unread": ["Dinamik zamanlayıcı tıkı atlandı (veri yetersiz): cihazın pille çalışıp çalışmadığı okunamadı.", "Dynamic timer tick skipped (not enough data): whether the device runs on a battery could not be read."],
+  "plan.boot_tick.gate.bitlocker_on": ["Dinamik zamanlayıcı tıkı atlandı (desteklenmiyor): sistem sürücüsünde BitLocker açık; önyükleme ayarı değiştirilmez.", "Dynamic timer tick skipped (not supported): BitLocker is on for the system drive; the boot setting is not changed."],
+  "plan.boot_tick.gate.bitlocker_unread": ["Dinamik zamanlayıcı tıkı atlandı (veri yetersiz): sistem sürücüsünün BitLocker durumu okunamadı.", "Dynamic timer tick skipped (not enough data): the BitLocker state of the system drive could not be read."],
+  "plan.boot_tick.gate.bcd_unread": ["Dinamik zamanlayıcı tıkı atlandı (veri yetersiz): önyükleme yapılandırmasındaki mevcut değer okunamadı; geri alınabilir kayıt olmadan değiştirilmez.", "Dynamic timer tick skipped (not enough data): the current value in the boot configuration could not be read; it is not changed without a restorable record."]
+}

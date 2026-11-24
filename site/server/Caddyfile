@@ -1,0 +1,16 @@
+ecufast.asilpolat.com {
+	root * /srv
+	encode zstd gzip
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'"
+		-Server
+	}
+	@static path *.svg
+	header @static Cache-Control "public, max-age=86400"
+	header /v/version.json Cache-Control "no-cache"
+	header / Cache-Control "no-cache"
+	file_server
+}

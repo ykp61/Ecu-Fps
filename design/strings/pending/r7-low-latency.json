@@ -1,0 +1,10 @@
+{
+  "vendor.ll.status.unsupported": ["Desteklenmiyor: bu bağdaştırıcı için kullanılabilir sürücü API'si yok.", "Not supported: no usable driver API for this adapter."],
+  "vendor.ll.status.insufficient": ["Veri yetersiz: sürücü var ama özellik durumu okunamadı.", "Not enough data: the driver is present but the feature state could not be read."],
+  "vendor.ll.status.guide": ["Yalnız rehber: ayarı siz uygularsınız; uygulama okumaz veya değiştirmez.", "Guide only: you apply the setting yourself; the app does not read or change it."],
+  "vendor.ll.amd.driver": ["AMD Anti-Lag (sürücü düzeyi): AMD sürücü yazılımından oyun bazlı veya genel açılır.", "AMD Anti-Lag (driver level): enabled per game or globally in the AMD driver software."],
+  "vendor.ll.amd.ingame": ["AMD Anti-Lag 2 (oyun içi SDK): yalnız oyun entegre ettiyse oyunun kendi ayarında görünür; sürücü düzeyi Anti-Lag ile aynı şey değildir.", "AMD Anti-Lag 2 (in-game SDK): appears in the game's own settings only if the game integrates it; it is not the same as driver-level Anti-Lag."],
+  "vendor.ll.intel.driver": ["Intel düşük gecikme modu (sürücü düzeyi): Intel Graphics Software içindeki oyun ayarlarında bulunur.", "Intel low latency mode (driver level): found in the game settings of Intel Graphics Software."],
+  "vendor.ll.intel.ingame": ["Intel XeLL (oyun içi SDK): yalnız oyun entegre ettiyse oyunun kendi ayarında görünür; sürücü düzeyi düşük gecikme modundan ayrıdır.", "Intel XeLL (in-game SDK): appears in the game's own settings only if the game integrates it; it is separate from the driver-level low latency mode."],
+  "vendor.ll.footnote": ["Menü adları ve konumları sürüme göre değişebilir; bu cihazda doğrulanmadı.", "Menu names and locations can vary by version; not verified on this device."]
+}

@@ -1,0 +1,10 @@
+{
+  "guide.fortnite.reflex": ["NVIDIA Reflex Düşük Gecikme", "NVIDIA Reflex Low Latency"],
+  "guide.fortnite.reflex_effect": ["NVIDIA ekran kartında açık olması gecikmeyi azaltmak için tasarlanmıştır; etkisini kendi sisteminizde karşılaştırın.", "On an NVIDIA GPU, keeping it on is designed to reduce latency; compare the effect on your own system."],
+  "guide.fortnite.vsync": ["Dikey Eşitleme", "V-Sync"],
+  "guide.fortnite.vsync_effect": ["kapalı olması giriş gecikmesini azaltır; yırtılma görürseniz G-SYNC veya FreeSync destekli ekran kullanın.", "keeping it off reduces input lag; if you see tearing, use a G-SYNC or FreeSync display."],
+  "guide.fortnite.fps_cap": ["Kare hızı sınırı", "Frame rate limit"],
+  "guide.fortnite.fps_cap_effect": ["Dikey Eşitleme kapalıyken sınırsız bırakılabilir; yırtılma görürseniz ekranın yenileme hızına eşitleyin.", "with V-Sync off it can be left unlimited; if you see tearing, match it to the display refresh rate."],
+  "guide.warzone.dynamic_resolution": ["Dinamik Çözünürlük", "Dynamic Resolution"],
+  "guide.warzone.dynamic_resolution_effect": ["sürümünüz sunuyorsa hedef kare hızı seçilir ve oyun çözünürlüğü buna göre ayarlar; sonucu aynı sahnede karşılaştırın.", "if your version offers it, you pick a target frame rate and the game adjusts resolution to match; compare the result in the same scene."]
+}
